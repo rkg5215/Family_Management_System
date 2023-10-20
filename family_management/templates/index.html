@@ -1,0 +1,71 @@
+{% if messages %}
+<div class="alert success" id="message_container">
+  <span class="closebtn">&times;</span>
+  {% for message in messages %}
+  <strong>{{ message }}!!</strong> Welcome {{user_name}}.
+    {% endfor %}
+</div>
+{% endif %}
+{% include "dashboard_base.html" %}
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Total Family</h4>
+            <p>{{total_family}} Family</p>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Total Members</h4>
+            <p>{{total_members}} Members</p>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Sessions</h4>
+            <p>10 Million</p>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Bounce</h4>
+            <p>30%</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="well">
+            <p>The chapter you are learning today is going to save someone's life tomorrow.</p>
+
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p>I want to experience the most beautiful adrenaline rush of my life. A rush while taking medical pledge/oath</p>
+
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p>Wherever the art of medicine is loved, there is also a love for humanity.</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="well">
+            <p>I think it is possible for ordinary people to choose to be extraordinary.</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p>We must accept finite disappointment but never lose infinite hope.</p>
+          </div>
+        </div>
+      </div>
+
+</body>
+
+</html>

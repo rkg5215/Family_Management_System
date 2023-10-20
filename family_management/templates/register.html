@@ -1,0 +1,32 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGN UP</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="wrapper login">
+        <div class="container">
+            <div class="col-left">
+                <div class="login-text">
+                    <h2>Welcome!</h2>
+                    <p>Go to Login page</p> <a href="/login" class="btn">Login</a>
+                </div>
+            </div>
+            <div class="col-right">
+                <div class="login-form">
+                    <h2>New Sign Up</h2>
+                    <form action="" method="post">
+                    {% csrf_token %}
+                        <p> <label>Username<span>*</span></label> <input type="text" name="username" placeholder="Username" required> </p>
+                        <p> <label>Email<span>*</span></label><input type="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Invalid input" placeholder="Email" required> </p>
+                        <p> <label>Password<span>*</span></label> <input type="password" name="password" placeholder="Password" required> </p>
+                        <p>{{error_name}}</p>
+                        <p> <input type="submit" value="Register"> </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('family/', views.family, name='family'),
     path('add_family/', views.add_family, name='add_family'),
+    path('update_family/<int:id>', views.update_family, name='update_family'),
     path("delete_family/<int:id>", views.delete_family, name='delete_family'),
     path('family/<int:family_id>', views.family_details, name='family_details'),
     path('add_family_member/<int:family_id>', views.add_family_member, name='add_family_member'),

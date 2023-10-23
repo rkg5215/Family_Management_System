@@ -35,8 +35,9 @@
 							</span>
 						</td>
 						<td>{{i.name}}</td>
-						<td>
+						<td width="15%" >
 							<a href = "\family/{{i.id}}"><i class="fa fa-user" style="font-size:24px"></i></a>
+							<a href="#editFamilyModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 							<a href="#deleteFamilyModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 						</td>
 					</tr>
@@ -59,7 +60,7 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label>Family Name</label>
-						<input name="name" type="text" class="form-control" required>
+						<input name="name" pattern="[a-zA-Z\s]+" title="Only Letters are allowed" type="text" class="form-control" required>
 					</div>
 
 				</div>
@@ -94,7 +95,31 @@
 	</div>
 </div>
 {% endfor %}
-  </div>
-  </div>
+
+<!-- Edit Modal HTML -->
+{% for i in family_list %}
+<div id="editFamilyModal-{{forloop.counter}}" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="/update_family/{{i.id}}" method="post">
+				{% csrf_token %}
+				<div class="modal-header">
+					<h4 class="modal-title">Edit Family</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Family Name</label>
+						<input name="name" value="{{i.name}}" pattern="[a-zA-Z\s]+" title="Only Letters are allowed" type="text" class="form-control" required>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-success" value="Update">
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
-</body>
+{% endfor %}

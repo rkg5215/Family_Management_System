@@ -79,11 +79,11 @@
 					</div>
 					<div class="form-group">
 						<label>Name</label>
-						<input name="name" type="text" pattern="[a-zA-Z\s]+" title="Only Letters are allowed" class="form-control" required>
+						<input name="name" type="text" class="form-control" >
 					</div>
 					<div class="form-group">
 						<label>DOB</label>
-						<input name="date_of_birth" type="date" class="form-control" required>
+						<input name="date_of_birth" type="date" class="form-control">
 					</div>
 					<div class="form-group">
 						<label>Gender</label>
@@ -94,7 +94,7 @@
 					</div>
 					<div class="form-group">
 						<label>Contact</label>
-						<input name="mobile_number" type="text" pattern="[1-9]{1}[0-9]{9}" title="Phone number should be 10 digit" class="form-control" required>
+						<input name="mobile_number" class="form-control">
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -140,7 +140,7 @@
 					</div>
 					<div class="form-group">
 						<label>Contact</label>
-						<input name="mobile_number" value="{{i.mobile_number}}" type="text" pattern="[1-9]{1}[0-9]{9}" title="Phone number should be 10 digit"  class="form-control" required>
+						<input name="mobile_number" value="{{i.mobile_number}}" pattern="[1-9]{1}[0-9]{9}" title="Phone number should be 10 digit"  type="text"  class="form-control" required>
 					</div>
 				</div>
 				<div class="modal-footer">

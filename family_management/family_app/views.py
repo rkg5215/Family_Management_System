@@ -16,6 +16,7 @@ def register(request):
         else:
             newuser=User.objects.create(username=username, password=password,email=email)
             newuser.save()
+            messages.success(request, "User Registered Successfully.")
         return redirect('/login')
     return render(request, 'register.html')
 
@@ -49,6 +50,45 @@ def logout(request):
         pass
     return redirect("/login")
 
+def checkname(name):
+    if name != '' and all(chr.isalpha() or chr.isspace() for chr in name):
+        return True
+    else:
+        return False
+
+def checkphone(phone):
+    if phone != "" and phone.isdigit() and len(phone) == 10:
+        return True
+    else:
+        return False
+
+def checkgender(gender):
+    if gender == "Male" or gender == "Female" :
+        return True
+    else:
+        return False
+
+def checkdate(Enter_date):
+    from datetime import date
+    today = date.today()
+    if str(today) < Enter_date:
+        return False
+    else:
+        return True
+
+def validation_all(request,name,Enter_date,phone,gender):
+    if checkname(name)==False:
+        messages.warning(request, "Name of a person should contain only alphabets")
+    elif checkdate(Enter_date)==False:
+        messages.warning(request, "Date Of Birth should not be greater than today")
+    elif checkphone(phone)==False:
+        messages.warning(request, "Phone number should be digit and not greater than 10")
+    elif checkgender(gender)==False:
+        messages.warning(request, "Gender should be male or female only")
+
+    else:
+        return 1
+
 def family(request):
     if request.session.has_key('uid'):
         user_name = (request.session["uid"]).capitalize()
@@ -66,6 +106,18 @@ def add_family(request):
             )
             entry.save()
             return redirect("/family")
+    return redirect('/login')
+
+def update_family(request,id):
+    if request.session.has_key('uid'):
+        family_id = Family.objects.get(id=id)
+        name = request.POST.get('name')
+        entry = Family(
+            id=id,
+            name=name,
+        )
+        entry.save()
+        return redirect("/family")
     return redirect('/login')
 
 def delete_family(request,id):
@@ -93,17 +145,19 @@ def add_family_member(request, family_id):
             date_of_birth = request.POST.get('date_of_birth')
             gender = request.POST.get('gender')
             mobile_number = request.POST.get('mobile_number')
-            entry = FamilyMember(
-                family= family,
-                name=name,
-                date_of_birth= date_of_birth,
-                gender=gender,
-                mobile_number= mobile_number
-            )
-            try:
-                entry.save()
-            except:
-                messages.warning(request,"Duplicate Phone Number")
+            if validation_all(request, name, date_of_birth, mobile_number, gender) == 1:
+                entry = FamilyMember(
+                    family= family,
+                    name=name,
+                    date_of_birth= date_of_birth,
+                    gender=gender,
+                    mobile_number= mobile_number
+                )
+                try:
+                    entry.save()
+                except Exception as e:
+                    messages.warning(request,e)
+                return redirect("family_details", family_id=family.id)
             return redirect("family_details", family_id=family.id)
     return redirect('/login')
 
@@ -116,18 +170,20 @@ def update_family_member(request, family_id, family_member_id):
             date_of_birth = request.POST.get('date_of_birth')
             gender = request.POST.get('gender')
             mobile_number = request.POST.get('mobile_number')
-            entry = FamilyMember(
-                id= family_member.id,
-                family=family,
-                name=name,
-                date_of_birth=date_of_birth,
-                gender=gender,
-                mobile_number=mobile_number
-            )
-            try:
-                entry.save()
-            except:
-                messages.warning(request, "Duplicate Phone Number")
+            if validation_all(request,name,date_of_birth,mobile_number,gender)==1:
+                entry = FamilyMember(
+                    id= family_member.id,
+                    family=family,
+                    name=name,
+                    date_of_birth=date_of_birth,
+                    gender=gender,
+                    mobile_number=mobile_number
+                )
+                try:
+                    entry.save()
+                except:
+                    messages.warning(request, "Mobile number already exists!")
+                return redirect("family_details", family_id=family.id)
             return redirect("family_details", family_id=family.id)
     return redirect('/login')
 

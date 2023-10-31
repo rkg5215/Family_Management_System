@@ -1,4 +1,12 @@
 {% include "dashboard_base.html" %}
+{% if messages %}
+	{% for message in messages %}
+	<div class="alert {{message.tags}}" id="message_container">
+	  <span class="closebtn">&times;</span>
+	  <strong>{{ message }}!!</strong>
+		{% endfor %}
+	</div>
+{% endif %}
   <div class="container-xl">
 	<div class="table-responsive">
 		<div class="table-wrapper">
@@ -123,3 +131,4 @@
 	</div>
 </div>
 {% endfor %}
+<script src="/static/js/script.js"></script>

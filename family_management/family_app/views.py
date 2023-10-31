@@ -12,6 +12,7 @@ def register(request):
 
         if user_list:
             error_name='The user name already exists'
+            messages.warning(request, "The user name already exists")
             return render (request, 'register.html',{'error_name': error_name})
         else:
             newuser=User.objects.create(username=username, password=password,email=email)
@@ -80,12 +81,11 @@ def validation_all(request,name,Enter_date,phone,gender):
     if checkname(name)==False:
         messages.warning(request, "Name of a person should contain only alphabets")
     elif checkdate(Enter_date)==False:
-        messages.warning(request, "Date Of Birth should not be greater than today")
+        messages.warning(request, "Invalid Date (Date Of Birth should not be greater than today)")
     elif checkphone(phone)==False:
         messages.warning(request, "Phone number should be digit and not greater than 10")
     elif checkgender(gender)==False:
         messages.warning(request, "Gender should be male or female only")
-
     else:
         return 1
 
@@ -101,29 +101,40 @@ def add_family(request):
     if request.session.has_key('uid'):
         if request.method=='POST':
             name=request.POST.get('name')
-            entry=Family(
-                name = name,
-            )
-            entry.save()
-            return redirect("/family")
+            if checkname(name)==True:
+                entry=Family(
+                    name = name,
+                )
+                entry.save()
+                messages.success(request, "Family Added Successfully")
+                return redirect("/family")
+            else:
+                messages.warning(request, "Name of a family should contain only alphabets")
+                return redirect("/family")
     return redirect('/login')
 
 def update_family(request,id):
     if request.session.has_key('uid'):
         family_id = Family.objects.get(id=id)
         name = request.POST.get('name')
-        entry = Family(
-            id=id,
-            name=name,
-        )
-        entry.save()
-        return redirect("/family")
+        if checkname(name) == True:
+            entry = Family(
+                id=id,
+                name=name,
+            )
+            entry.save()
+            messages.info(request, "Family Name Updated Successfully")
+            return redirect("/family")
+        else:
+            messages.warning(request, "Name of a family should contain only alphabets")
+            return redirect("/family")
     return redirect('/login')
 
 def delete_family(request,id):
     if request.session.has_key('uid'):
         family = Family.objects.get(id=id)
         family.delete()
+        messages.success(request, "Family Deleted Successfully")
         return redirect("/family")
     return redirect('/login')
 
@@ -155,11 +166,14 @@ def add_family_member(request, family_id):
                 )
                 try:
                     entry.save()
+                    messages.success(request, "Member Added Successfully")
                 except Exception as e:
-                    messages.warning(request,e)
+                    messages.error(request,e)
                 return redirect("family_details", family_id=family.id)
             return redirect("family_details", family_id=family.id)
     return redirect('/login')
+
+
 
 def update_family_member(request, family_id, family_member_id):
     if request.session.has_key('uid'):
@@ -181,8 +195,9 @@ def update_family_member(request, family_id, family_member_id):
                 )
                 try:
                     entry.save()
+                    messages.success(request, "Member Updated Successfully")
                 except:
-                    messages.warning(request, "Mobile number already exists!")
+                    messages.error(request, "Mobile number already exists!")
                 return redirect("family_details", family_id=family.id)
             return redirect("family_details", family_id=family.id)
     return redirect('/login')
@@ -191,6 +206,7 @@ def delete_family_member(request, family_id, family_member_id):
     if request.session.has_key('uid'):
         family_member = FamilyMember.objects.get(id=family_member_id)
         family_member.delete()
+        messages.success(request, "Member Deleted Successfully")
         return redirect("family_details", family_id=family_id)
     return redirect('/login')
 

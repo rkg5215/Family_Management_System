@@ -1,8 +1,8 @@
 {% include "dashboard_base.html" %}
 {% if messages %}
-	<div class="alert danger" id="message_container">
+	{% for message in messages %}
+	<div class="alert {{message.tags}}" id="message_container">
 	  <span class="closebtn">&times;</span>
-	  {% for message in messages %}
 	  <strong>{{ message }}!!</strong>
 		{% endfor %}
 	</div>

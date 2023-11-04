@@ -1,12 +1,12 @@
-
 {% if messages %}
-	{% for message in messages %}
-	<div class="alert {{message.tags}}" id="message_container">
-	  <span class="closebtn">&times;</span>
-	  <strong>{{ message }}!!</strong> Welcome {{user_name}}
-		{% endfor %}
-	</div>
+   {% for message in messages %}
+   <div class="alert {{message.tags}}" id="message_container">
+     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+     <strong>{{ message }}!!</strong> Welcome {{user_name}}
+      {% endfor %}
+   </div>
 {% endif %}
+
 {% include "dashboard_base.html" %}
       <div class="row">
         <div class="col-sm-3">
@@ -68,5 +68,3 @@
       </div>
 
 </body>
-
-</html>
